@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ZIP to YusufTechCode Converter</title>
+</head>
+<body>
+  <h1>ZIP to .yusuftechcode Converter</h1>
+  <input type="file" id="zipInput" accept=".zip" />
+  <button onclick="convertZip()">Convert to .yusuftechcode</button>
+
+  <pre id="log"></pre>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.0/jszip.min.js"></script>
+  <script>
+    let zipFile;
+
+    document.getElementById('zipInput').addEventListener('change', function(event) {
+      zipFile = event.target.files[0];
+      document.getElementById('log').textContent = '';
+    });
+
+    function log(message) {
+      document.getElementById('log').textContent += message + '\n';
+    }
+
+    function convertZip() {
+      if (!zipFile) return alert('Please upload a ZIP file first.');
+
+      const MAX_FILE_SIZE = 1024 * 1024; // 1MB
+      const MAX_PATH_LENGTH = 200;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        JSZip.loadAsync(e.target.result).then(zip => {
+          const entries = [];
+          const promises = [];
+
+          zip.forEach((relativePath, file) => {
+            if (file.dir) return; // Skip folders
+
+            if (relativePath.length > MAX_PATH_LENGTH) {
+              log(`Skipped: ${relativePath} (path too long)`);
+              return;
+            }
+
+            if (file._data.uncompressedSize > MAX_FILE_SIZE) {
+              log(`Skipped: ${relativePath} (file too large)`);
+              return;
+            }
+
+            const promise = file.async("string").then(content => {
+              const encoded = btoa(unescape(encodeURIComponent(content)));
+              entries.push({
+                name: relativePath,
+                type: "text/plain",
+                content: encoded
+              });
+              log(`Added: ${relativePath}`);
+            });
+
+            promises.push(promise);
+          });
+
+          Promise.all(promises).then(() => {
+            const ytcJson = {
+              project: zipFile.name.replace('.zip', ''),
+              files: entries
+            };
+
+            const blob = new Blob([JSON.stringify(ytcJson, null, 2)], {
+              type: "application/json"
+            });
+
+            const a = document.createElement("a");
+            a.href = URL.createObjectURL(blob);
+            a.download = `${zipFile.name.replace('.zip', '')}.yusuftechcode`;
+            a.click();
+          });
+        });
+      };
+
+      reader.readAsArrayBuffer(zipFile);
+    }
+  </script>
+</body>
+</html>

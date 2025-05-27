@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>YusufTechCode Reader</title>
+</head>
+<body>
+  <h1>YusufTechCode Reader</h1>
+  <input type="file" id="fileInput" accept=".yusuftechcode" />
+  <button onclick="downloadZip()">Download as ZIP</button>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.0/jszip.min.js"></script>
+  <script>
+    let filesToDownload = [];
+
+    document.getElementById('fileInput').addEventListener('change', function(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const json = JSON.parse(e.target.result);
+        filesToDownload = json.files.map(file => ({
+          name: file.name,
+          content: atob(file.content)
+        }));
+        alert('File parsed successfully!');
+      };
+      reader.readAsText(file);
+    });
+
+    function downloadZip() {
+      if (!filesToDownload.length) return alert('No files to download.');
+
+      const zip = new JSZip();
+      filesToDownload.forEach(file => {
+        zip.file(file.name, file.content);
+      });
+
+      zip.generateAsync({ type: "blob" }).then(function(content) {
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(content);
+        a.download = "project.zip";
+        a.click();
+      });
+    }
+  </script>
+</body>
+</html>

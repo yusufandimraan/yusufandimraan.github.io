@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pizzeria Simulator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Pizzeria Simulator</h1>
+
+        <div class="game-area">
+            <div class="customer-orders">
+                <h2>Customer Orders</h2>
+                <ul id="customer-order-list">
+                    </ul>
+            </div>
+
+            <div class="pantry">
+                <h2>Pantry (Your Ingredients)</h2>
+                <ul id="ingredient-list">
+                    </ul>
+            </div>
+
+            <div class="player-actions">
+                <h2>Your Actions</h2>
+                <button id="take-order-btn">Take New Order</button>
+                <button id="make-pizza-btn">Make Pizza</button>
+                <button id="serve-order-btn">Serve Pizza</button>
+            </div>
+        </div>
+
+        <div class="messages">
+            <p id="game-message"></p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

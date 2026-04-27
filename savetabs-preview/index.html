@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Save Tabs</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            width: 300px; /* Adjust width as needed */
+            padding: 10px;
+            background-color: #f4f4f4;
+        }
+        h3 {
+            color: #333;
+            text-align: center;
+        }
+        button {
+            display: block;
+            width: 90%;
+            padding: 10px;
+            margin: 10px auto;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #savedTabsList {
+            margin-top: 15px;
+            border-top: 1px solid #ccc;
+            padding-top: 10px;
+        }
+        #savedTabsList ul {
+            list-style: none;
+            padding: 0;
+        }
+        #savedTabsList li {
+            background-color: white;
+            border: 1px solid #ddd;
+            margin-bottom: 5px;
+            padding: 8px 10px;
+            border-radius: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            word-break: break-all; /* Ensures long titles/URLs wrap */
+        }
+        #savedTabsList li a {
+            text-decoration: none;
+            color: #007bff;
+            flex-grow: 1; /* Allows the link to take up available space */
+            margin-right: 10px;
+        }
+        #savedTabsList li a:hover {
+            text-decoration: underline;
+        }
+        .delete-btn {
+            background-color: #f44336;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            padding: 3px 7px;
+            font-size: 12px;
+            cursor: pointer;
+            margin-left: 5px;
+        }
+        .delete-btn:hover {
+            background-color: #da190b;
+        }
+        .no-tabs-message {
+            text-align: center;
+            color: #777;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        .clear-all-btn {
+            background-color: #d32f2f; /* Red */
+            margin-top: 20px;
+        }
+        .clear-all-btn:hover {
+            background-color: #b71c1c;
+        }
+    </style>
+</head>
+<body>
+    <h3>Save Tabs</h3>
+    <button id="saveTabButton">Save Current Tab</button>
+
+    <div id="savedTabsList">
+        <h4>Your Saved Tabs:</h4>
+        <ul id="tabsList">
+            </ul>
+        <p id="noTabsMessage" class="no-tabs-message" style="display: none;">No tabs saved yet!</p>
+    </div>
+    <button id="clearAllTabsButton" class="clear-all-btn" style="display: none;">Clear All Saved Tabs</button>
+
+    <script src="popup.js"></script>
+</body>
+</html>
